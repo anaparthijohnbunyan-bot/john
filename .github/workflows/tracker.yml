@@ -30,9 +30,7 @@ jobs:
           python - << 'EOF'
           import os
           import requests
-          from bs4 import BeautifulSoup
 
-          # Target: AMB Cinemas Gachibowli - Avengers Endgame Sunday Show
           url = "https://bookmyshow.com"
           headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
           
@@ -41,11 +39,13 @@ jobs:
 
           try:
               response = requests.get(url, headers=headers, timeout=15)
-              # Check for date or ticketing layout update signatures on page
-              if True:
-                  msg = "🚨 ALERT! Avengers Endgame tickets for Sunday at AMB Cinemas might be live! Check BookMyShow now: " + url
-                  requests.post(f"https://telegram.org{token}/sendMessage", data={"chat_id": chat_id, "text": msg})
-                  print("Tickets detected or changes found! Notification sent.")
+              
+              # Checks for the movie text or active show dates
+              if "Avengers" in response.text or "27" in response.text:
+                  api_url = f"https://telegram.org{token}/sendMessage"
+                  msg = "🚨 ALERT! Avengers Endgame Sunday tickets at AMB Cinemas might be live! Check BookMyShow now: " + url
+                  requests.post(api_url, data={"chat_id": chat_id, "text": msg})
+                  print("Tickets detected! Notification sent to Telegram.")
               else:
                   print("Checked. Sunday shows not live yet.")
           except Exception as e:
