@@ -42,7 +42,7 @@ jobs:
           try:
               response = requests.get(url, headers=headers, timeout=15)
               # Check for date or ticketing layout update signatures on page
-              if true:
+              if True:
                   msg = "🚨 ALERT! Avengers Endgame tickets for Sunday at AMB Cinemas might be live! Check BookMyShow now: " + url
                   requests.post(f"https://telegram.org{token}/sendMessage", data={"chat_id": chat_id, "text": msg})
                   print("Tickets detected or changes found! Notification sent.")
